@@ -1,0 +1,67 @@
+<!--
+
+ - FILE ASLI MILIK RIFAN KHAKIM
+ - DIBUAT DENGAN SEPENUH HATI DAN CINTA
+ - DILARANG MENJUAL TEMPLATE, KETAHUAN SAYA PENJARAKAN AWOKKAWOK
+
+--> 
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="home-container">
+        <!-- INI BAGIAN HOME -->
+        <section id="home" class="hero">
+            <div class="hero-text">
+                <p>Hello, I'm</p>
+                <h1>Rifan Khakim</h1>
+                <p>I'm a <span class="animated-text"></span></p>
+                <div class="social-icons">
+                    <a href="https://github.com/Arifxyzzz" target="_blank"><i class="bi bi-github"></i></a>
+                    <a href="https://www.instagram.com/axzydesign" target="_blank"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/muhamad-rifan-09a653278/" target="_blank"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://discord.gg/csr25MQ2b8" target="_blank"><i class="bi bi-discord"></i></a>
+                </div>
+            </div>
+            <div class="hero-profile"></div>
+        </section>
+    </div>
+
+    <script>
+
+        const words = ["Graphic Designer", "Web Designer", "Minecraft Server Dev"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let currentText = "";
+        let isDeleting = false;
+        const speed = 100; // Kecepatan ketikan
+        const delay = 2000; // Waktu sebelum ganti kata
+
+        function typeEffect() {
+            const animatedText = document.querySelector(".animated-text");
+
+            if (!isDeleting) {
+                currentText = words[wordIndex].substring(0, charIndex + 1);
+                charIndex++;
+            } else {
+                currentText = words[wordIndex].substring(0, charIndex - 1);
+                charIndex--;
+            }
+
+            animatedText.innerHTML = currentText;
+
+            if (!isDeleting && charIndex === words[wordIndex].length) {
+                setTimeout(() => isDeleting = true, delay);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+            }
+
+            setTimeout(typeEffect, isDeleting ? speed / 2 : speed);
+        }
+
+    </script>
+</body>
+</html>

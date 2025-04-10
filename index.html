@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!--
+
+ - FILE ASLI MILIK RIFAN KHAKIM
+ - DIBUAT DENGAN SEPENUH HATI DAN CINTA
+ - DILARANG MENJUAL TEMPLATE, KETAHUAN SAYA PENJARAKAN AWOKKAWOK
+
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="image/logo.png" />
+    <title>Rifan Khakim</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="image/bg.mp4" type="video/mp4">
+    </video>
+    <iframe id="music-frame" src="music.html" style="display:block; border:none;" width="0" height="0"></iframe>
+
+    <header>
+        
+            
+        <!-- Burger Button for Mobile -->
+        <!-- From Uiverse.io by vinodjangid07 --> 
+        <input type="checkbox" id="checkbox">
+        <label for="checkbox" class="toggle">
+                <div class="bars" id="bar1"></div>
+                <div class="bars" id="bar2"></div>
+                <div class="bars" id="bar3"></div>
+        </label>
+            
+        <nav>
+            <ul id="nav-links">
+            <li><a href="#" onclick="loadPage('home.html', this)" class="active">Home</a></li>
+            <li><a href="#" onclick="loadPage('about.html', this)">About</a></li>
+            <li><a href="#" onclick="loadPage('portfolio.html', this)">Portfolio</a></li>
+            <li><a href="#" onclick="loadPage('service.html', this)">Service</a></li>
+            <li><a href="#" onclick="loadPage('project.html', this)">Project</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="content" class="slide-in"></div>
+
+    <script>
+        function filterportfolio(category) {
+            document.querySelectorAll('.portfolio-item').forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.classList.add('show');
+                } else {
+                    item.classList.remove('show');
+                }
+            });
+        }
+
+        function loadPage(page, element) {
+            const content = document.getElementById('content');
+            content.classList.remove('slide-in-active');
+            content.classList.add('slide-in');
+
+            fetch(page)
+                .then(response => response.text())
+                .then(html => {
+                    setTimeout(() => {
+                        content.innerHTML = html;
+                        content.classList.add('slide-in-active');
+
+                        if (page === "home.html") {
+                            startTypingEffect();
+                        }
+
+                        if (page === "about.html") {
+                            animateSkillBars();
+                        }
+                    }, 200);
+                })
+                .catch(error => console.error('Error loading page:', error));
+
+            document.querySelectorAll("nav ul li a").forEach(link => link.classList.remove("active"));
+            element.classList.add("active");
+
+            // Tutup menu setelah pilih di mobile
+            const navList = document.getElementById("nav-list");
+            if (window.innerWidth <= 768) {
+                navList.classList.remove("show");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            loadPage('home.html', document.querySelector("nav ul li a.active"));
+        });
+
+        let typingInterval;
+        function startTypingEffect() {
+            clearInterval(typingInterval);
+            const words = ["Graphic Designer", "Front End Developer", "Game Developer"];
+            let wordIndex = 0;
+            let charIndex = 0;
+            let currentText = "";
+            let isDeleting = false;
+            const speed = 100;
+            const delay = 2000;
+
+            function typeEffect() {
+                const animatedText = document.querySelector(".animated-text");
+                if (!animatedText) return;
+
+                if (!isDeleting) {
+                    currentText = words[wordIndex].substring(0, charIndex + 1);
+                    charIndex++;
+                } else {
+                    currentText = words[wordIndex].substring(0, charIndex - 1);
+                    charIndex--;
+                }
+
+                animatedText.innerHTML = currentText;
+
+                if (!isDeleting && charIndex === words[wordIndex].length) {
+                    setTimeout(() => isDeleting = true, delay);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                }
+
+                typingInterval = setTimeout(typeEffect, isDeleting ? speed / 2 : speed);
+            }
+            typeEffect();
+        }
+
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-bar span');
+
+            skillBars.forEach(bar => {
+                const width = bar.getAttribute("style").match(/width: (\d+%);/)[1];
+                bar.style.width = "0";
+
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        }
+
+        function playMusic() {
+            let audio = document.getElementById("bg-music");
+            if (audio && audio.paused) {
+                audio.play().catch(error => console.log("Autoplay diblokir oleh browser:", error));
+            }
+        }
+
+        document.addEventListener("click", playMusic, { once: true });
+        document.addEventListener("keydown", playMusic, { once: true });
+        const checkbox = document.getElementById("checkbox");
+        const navList = document.querySelector("nav ul");
+
+        checkbox.addEventListener("change", () => {
+            navList.classList.toggle("active");
+        });
+        const audio = document.getElementById("bg-music");
+        audio.volume = 0.1;
+        
+
+    </script>
+</body>
+</html>
